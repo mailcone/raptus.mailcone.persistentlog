@@ -24,3 +24,6 @@ class ILog(interface.Interface):
     """ A customer
     """
     id = schema.TextLine(title=_(u'Id'), required=True)
+    category = schema.TextLine(title=_(u'Category'), required=True)
+    log_from = schema.Datetime(title=_(u'Log from'), required=True)
+    log_to = schema.Datetime(title=_(u'Log to'), required=True)
