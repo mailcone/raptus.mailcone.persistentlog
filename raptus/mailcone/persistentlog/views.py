@@ -52,10 +52,11 @@ class LogView(grok.View, FileView):
     grok.name('index')
     grok.context(interfaces.ILog)
 
-    def render(self):
+    @property
+    def content(self):
         file = self.show()
-        alsoProvides(file, IResult)
-        return file
+        del self.request.response._headers['content-type']
+        return file.__iter__()
 
 
 
