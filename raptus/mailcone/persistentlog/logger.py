@@ -25,6 +25,8 @@ class PersistentLogHandler(handlers.BufferingHandler):
     
     def emit(self, record):
         super(PersistentLogHandler, self).emit(record)
+        if record.levelno >= logging.ERROR:
+            self.has_errors = True
         if self.firstlog is None:
             self.firstlog = self.now()
 
@@ -43,11 +45,15 @@ class PersistentLogHandler(handlers.BufferingHandler):
         log.log_to = self.now()
         log.category = self.category
         log.data = self.getLog()
-        
+        log.has_errors = self.has_errors
         container.add_object(log)
-        self.firstlog = None
         self.flush()
-        
+
+    def flush(self):
+        super(PersistentLogHandler, self).flush()
+        self.firstlog = None
+        self.has_errors = False
+
     def now(self):
         dt = datetime.now()
         return datetime(dt.year,dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond, tzinfo=pytz.UTC)

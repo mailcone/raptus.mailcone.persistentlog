@@ -20,6 +20,7 @@ class Log(File, bases.Container):
     log_from = FieldProperty(interfaces.ILog['log_from'])
     log_to = FieldProperty(interfaces.ILog['log_to'])
     category = FieldProperty(interfaces.ILog['category'])
+    has_errors = FieldProperty(interfaces.ILog['has_errors'])
 
     def __init__(self):
         bases.Container.__init__(self)

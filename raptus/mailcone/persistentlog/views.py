@@ -35,6 +35,15 @@ class PersistentTable(BaseDataTable):
                      cssclass = 'ui-icon ui-icon-arrowthickstop-1-s',
                      link = 'download'),)
 
+    def _metadata(self, objs):
+        di = super(PersistentTable, self)._metadata(objs)
+        
+        css_class = dict()
+        for index, obj in enumerate(objs):
+            css_class[index] = obj.has_errors and 'table-color-red' or ' '
+        di['css_class'] = css_class
+        return di
+
 
 
 class PersistentLogs(Page):
