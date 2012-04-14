@@ -27,7 +27,7 @@ grok.templatedir('templates')
 class PersistentTable(BaseDataTable):
     grok.context(interfaces.ILogContainer)
     interface_fields = interfaces.ILog
-    ignors_fields = ['id']
+    ignors_fields = ['id', 'has_errors']
     actions = (dict( title = _('delete'),
                      cssclass = 'ui-icon ui-icon-trash ui-modal-minsize ui-datatable-ajaxlink',
                      link = 'deletecustomerform'),
