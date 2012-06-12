@@ -9,7 +9,7 @@ from z3c.blobfile.browser.file import FileView
 from raptus.mailcone.layout.interfaces import ICronjobMenu
 from raptus.mailcone.layout.navigation import locatormenuitem
 from raptus.mailcone.layout.datatable import BaseDataTable
-from raptus.mailcone.layout.views import Page
+from raptus.mailcone.layout.views import Page, DeleteForm
 
 from raptus.mailcone.core import utils
 
@@ -30,7 +30,7 @@ class PersistentTable(BaseDataTable):
     ignors_fields = ['id', 'has_errors']
     actions = (dict( title = _('delete'),
                      cssclass = 'ui-icon ui-icon-trash ui-modal-minsize ui-datatable-ajaxlink',
-                     link = 'deletecustomerform'),
+                     link = 'deletelogform'),
                dict( title = _('download'),
                      cssclass = 'ui-icon ui-icon-arrowthickstop-1-s',
                      link = 'download'),)
@@ -70,7 +70,6 @@ class LogView(grok.View, FileView):
 
 
 class Download(grok.View, FileView):
-    grok.name('download')
     grok.context(interfaces.ILog)
     
     def render(self):
@@ -81,6 +80,18 @@ class Download(grok.View, FileView):
         self.request.response.setHeader('Content-Disposition', 'attachment; filename=%s' % filename)
         alsoProvides(file, IResult)
         return file
+
+
+
+class DeleteLogForm(DeleteForm):
+    grok.context(interfaces.ILog)
+
+    def item_title(self):
+        return str(self.context.id)
+
+    def delete(self):
+        self.context.__parent__.del_object(self.context.id)
+
 
 
 
