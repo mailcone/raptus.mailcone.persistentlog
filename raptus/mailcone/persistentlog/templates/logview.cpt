@@ -5,9 +5,10 @@
       tal:omit-tag="">
   
 
+<div class="textarea-wrapper">
     <textarea readonly="readonly">
 <span tal:repeat="line view.content" tal:replace="structure line"/>
-    
     </textarea>
+</div>
 </html>
 
